@@ -10,7 +10,8 @@
 
 var which = require('which'),
     cp = require('child_process'),
-    sys = require('sys');
+    sys = require('sys'),
+    path = require('path');
 
 module.exports = function (grunt) {
 
@@ -53,9 +54,9 @@ module.exports = function (grunt) {
                 'File path is required!'
             );
 	}
-        
-	var rubyfile = __dirname + '/../ruby/hockeyapp.rb';
-	
+
+	var rubyfile = '"' + path.resolve(__dirname, '../ruby/hockeyapp.rb') + '"';
+
 	var status = 2; // default - allow to download
 	if(!options['download']) {
 	  status = 1; // dont allow users to download
@@ -74,7 +75,7 @@ module.exports = function (grunt) {
 	var done = this.async();
 	
 	grunt.log.subhead('Uploading file "'+options['file']+'" ... ');
-	
+
 	cp.exec(command, args, function(error, stdout, stderr) {
 	  if(error === null) {
 	    grunt.log.write(stdout);
